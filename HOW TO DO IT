@@ -62,8 +62,6 @@ UPDATE buku
 SET harga = harga + (harga * 0.10) 
 WHERE kategori = 'AI';
 
--- Menampilkan data setelah diupdate
+
 SELECT isbn, judul, penulis, tahun_terbit, harga FROM buku 
 WHERE kategori = 'AI';
-
-```
