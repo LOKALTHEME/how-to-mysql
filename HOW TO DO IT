@@ -1,0 +1,69 @@
+CREATE DATABASE db_uts_nimanda;
+USE db_uts_nimanda;
+
+CREATE TABLE buku (
+    id_buku INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    isbn VARCHAR(20) UNIQUE,
+    judul VARCHAR(100) NOT NULL,
+    penulis VARCHAR(50) NOT NULL,
+    penerbit VARCHAR(50) NULL,
+    kategori VARCHAR(30) NULL,
+    tahun_terbit YEAR(4) NULL,
+    harga DECIMAL(10,2) DEFAULT 0.00,
+    stok INT(11) DEFAULT 1,
+    bahasa VARCHAR(20) DEFAULT 'Indonesia',
+    rak VARCHAR(10) NULL,
+    tgl_masuk DATE NULL,
+    status ENUM('tersedia', 'habis', 'rusak', 'arsip') DEFAULT 'tersedia',
+    rating DECIMAL(2,1) DEFAULT 0.8
+);
+
+DESCRIBE buku;
+
+INSERT INTO buku (id_buku, isbn, judul, penulis, penerbit, kategori, tahun_terbit, harga, stok, bahasa, rak, tgl_masuk, status, rating) VALUES
+(1, '978-001', 'Basis Data Lanjut', 'Budi Santoso', 'Erlangga', 'Database', 2021, 125000.00, 10, 'Indonesia', 'R1', '2021-03-10', 'tersedia', 4.5),
+(2, '978-002', 'Algoritma & Pemrograman', 'Siti Aminah', 'Andi', 'Pemrograman', 2020, 98000.00, 5, 'Indonesia', 'R2', '2020-07-15', 'tersedia', 4.2),
+(3, '978-003', 'Jaringan Komputer', 'Ahmad Fauzi', 'Informatika', 'Jaringan', 2019, 110000.00, 0, 'Indonesia', 'R3', '2019-11-20', 'habis', 3.9),
+(4, '978-004', 'Kecerdasan Buatan', 'Dewi Lestari', 'Erlangga', 'AI', 2022, 150000.00, 7, 'Indonesia', 'R3', '2022-01-05', 'tersedia', 4.8),
+(5, '978-005', 'Sistem Operasi', 'Rudi Hartono', 'Andi', 'Sistem', 2018, 87000.00, 2, 'Indonesia', 'R2', '2018-09-12', 'tersedia', 3.5),
+(6, '978-006', 'Pemrograman Python', 'Budi Santoso', 'Informatika', 'Pemrograman', 2023, 135000.00, 12, 'Indonesia', 'R2', '2023-02-18', 'tersedia', 4.7),
+(7, '978-007', 'Machine Learning Dasar', 'Dewi Lestari', 'Erlangga', 'AI', 2023, 175000.00, 4, 'Indonesia', 'R1', '2023-05-22', 'tersedia', 4.6),
+(8, '978-008', 'Struktur Data', 'Siti Aminah', 'Andi', 'Pemrograman', 2019, 95000.00, 1, 'Indonesia', 'R2', '2019-08-30', 'tersedia', 4.0),
+(9, '978-009', 'Cloud Computing', 'Ahmad Fauzi', 'Informatika', 'Jaringan', 2022, 140000.00, 6, 'Indonesia', 'R3', '2022-10-11', 'tersedia', 4.3),
+(10, '978-010', 'Database Design', 'Agung Setiadi', 'Pearson', 'Database', 2020, 200000.00, 3, 'Inggris', 'R1', '2020-04-25', 'tersedia', 4.9),
+(11, '978-011', 'Data Mining', 'Rina Wulandari', 'Andi', 'Database', 2021, 130000.00, 0, 'Indonesia', 'R1', '2021-12-01', 'rusak', 3.8),
+(12, '978-012', 'Web Development', 'Rudi Hartono', 'Informatika', 'Pemrograman', 2021, 129000.00, 8, 'Indonesia', 'R2', '2021-06-14', 'tersedia', 4.4),
+(13, '978-013', 'Keamanan Informasi', 'Agung Setiadi', 'Erlangga', 'Jaringan', 2023, 155000.00, 5, 'Indonesia', 'R3', '2023-03-09', 'tersedia', 4.5),
+(14, '978-014', 'Big Data Analytics', 'Michael Chen', 'Pearson', 'Database', 2022, 210000.00, 2, 'Inggris', 'R1', '2022-08-19', 'tersedia', 4.7),
+(15, '978-015', 'Pemrograman Java', 'Siti Aminah', 'Andi', 'Pemrograman', 2018, 99000.00, 1, 'Indonesia', 'R2', '2018-05-07', 'arsip', 3.6);
+
+
+SELECT * FROM buku 
+WHERE kategori = 'Database' AND harga > 100000;
+
+
+SELECT * FROM buku 
+WHERE judul LIKE '%Pemrograman%';
+
+
+SELECT judul, harga FROM buku 
+ORDER BY harga DESC 
+LIMIT 5;
+
+
+SELECT isbn, judul, penulis, penerbit, stok FROM buku 
+WHERE stok = (SELECT MAX(stok) FROM buku)
+UNION
+SELECT isbn, judul, penulis, penerbit, stok FROM buku 
+WHERE stok = (SELECT MIN(stok) FROM buku);
+
+
+UPDATE buku 
+SET harga = harga + (harga * 0.10) 
+WHERE kategori = 'AI';
+
+-- Menampilkan data setelah diupdate
+SELECT isbn, judul, penulis, tahun_terbit, harga FROM buku 
+WHERE kategori = 'AI';
+
+```
